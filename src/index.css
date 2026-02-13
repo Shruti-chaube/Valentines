@@ -1,0 +1,52 @@
+/* ============================================
+   RESET & BASE STYLES
+   ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-pink: #ff6b9d;
+  --secondary-pink: #ffb3d1;
+  --light-pink: #ffe6f0;
+  --dark-pink: #ff4081;
+  --red: #ff1744;
+  --white: #ffffff;
+  --text-dark: #333333;
+  --text-light: #666666;
+  --shadow: rgba(255, 107, 157, 0.3);
+  --shadow-dark: rgba(255, 64, 129, 0.4);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #ffe6f0 0%, #ffb3d1 50%, #ff6b9d 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

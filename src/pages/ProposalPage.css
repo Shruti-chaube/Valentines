@@ -1,0 +1,205 @@
+.proposal-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  z-index: 2;
+}
+
+.proposal-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 30px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 20px 60px var(--shadow-dark);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  animation: fadeInUp 1s ease-out;
+  backdrop-filter: blur(10px);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-content {
+  position: relative;
+  z-index: 3;
+}
+
+.neelu-image-container {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  animation: fadeInUp 1s ease-out 0.3s backwards;
+}
+
+.neelu-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--primary-pink);
+  box-shadow: 0 8px 25px var(--shadow-dark);
+  transition: transform 0.3s ease;
+  animation: floatImage 3s ease-in-out infinite;
+}
+
+.neelu-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 35px var(--shadow-dark);
+}
+
+@keyframes floatImage {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.main-heading {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: var(--dark-pink);
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px var(--shadow);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.subtitle {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--text-light);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.btn {
+  padding: 1rem 2.5rem;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Nunito', sans-serif;
+  box-shadow: 0 4px 15px var(--shadow);
+  position: relative;
+  overflow: hidden;
+  min-width: 150px;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-yes {
+  background: linear-gradient(135deg, var(--primary-pink), var(--dark-pink));
+  color: var(--white);
+}
+
+.btn-yes:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px var(--shadow-dark);
+}
+
+.btn-yes:active {
+  transform: scale(0.95);
+}
+
+.btn-no {
+  background: linear-gradient(135deg, #ffcccc, #ff9999);
+  color: var(--white);
+  position: relative;
+  transition: all 0.1s ease;
+}
+
+.btn-no:hover {
+  transform: translateX(20px) scale(1.05);
+}
+
+.btn-no.moving {
+  position: absolute;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .proposal-card {
+    padding: 1.5rem 1.25rem;
+    max-width: 90%;
+  }
+
+  .buttons-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .btn-no.moving {
+    position: relative;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-heading {
+    font-size: 2rem;
+  }
+
+  .neelu-image {
+    width: 150px;
+    height: 150px;
+    border-width: 4px;
+  }
+}
