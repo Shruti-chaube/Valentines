@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import FloatingHearts from '../components/FloatingHearts';
 import Lightbox from '../components/Lightbox';
+import MusicControl from '../components/MusicControl';
 import './GalleryPage.css';
 
 const GalleryPage = () => {
@@ -68,9 +69,25 @@ const GalleryPage = () => {
     setCurrentIndex((prev) => (prev - 1 + galleryItems.length) % galleryItems.length);
   };
 
+  useEffect(() => {
+    // Check if music was playing on the proposal page and continue it
+    const wasPlaying = sessionStorage.getItem('musicPlaying') === 'true';
+    if (wasPlaying) {
+      // Small delay to ensure MusicControl component is mounted
+      setTimeout(() => {
+        const audio = document.querySelector('audio');
+        if (audio && audio.paused) {
+          audio.currentTime = parseFloat(sessionStorage.getItem('musicTime') || '20');
+          audio.play().catch(err => console.log('Auto-play prevented:', err));
+        }
+      }, 500);
+    }
+  }, []);
+
   return (
     <div className="memories-page">
       <FloatingHearts />
+      <MusicControl />
       
       <div className="memories-container">
         <header className="memories-header">

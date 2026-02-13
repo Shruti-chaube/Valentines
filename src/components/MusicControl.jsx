@@ -9,10 +9,24 @@ const MusicControl = () => {
     if (audioRef.current) {
       audioRef.current.volume = 0.4; // Set volume to 40% for background music
       
-      // Wait for audio to load, then set starting point to 20 seconds
+      // Check if music was playing before and restore state
+      const wasPlaying = sessionStorage.getItem('musicPlaying') === 'true';
+      const savedTime = parseFloat(sessionStorage.getItem('musicTime') || '20');
+      
+      // Wait for audio to load, then set starting point
       const handleLoadedMetadata = () => {
         if (audioRef.current) {
-          audioRef.current.currentTime = 20;
+          if (wasPlaying) {
+            audioRef.current.currentTime = savedTime;
+            setIsPlaying(true);
+            // Try to auto-play (may be blocked by browser)
+            audioRef.current.play().catch(err => {
+              console.log('Auto-play prevented:', err);
+              setIsPlaying(false);
+            });
+          } else {
+            audioRef.current.currentTime = 20;
+          }
         }
       };
       
@@ -31,7 +45,16 @@ const MusicControl = () => {
       
       // If already loaded, set time immediately
       if (audioRef.current.readyState >= 1) {
-        audioRef.current.currentTime = 20;
+        if (wasPlaying) {
+          audioRef.current.currentTime = savedTime;
+          setIsPlaying(true);
+          audioRef.current.play().catch(err => {
+            console.log('Auto-play prevented:', err);
+            setIsPlaying(false);
+          });
+        } else {
+          audioRef.current.currentTime = 20;
+        }
       }
       
       return () => {
@@ -41,7 +64,7 @@ const MusicControl = () => {
         }
       };
     }
-  }, [isPlaying]);
+  }, []);
 
   const toggleMusic = () => {
     if (!audioRef.current) return;
@@ -49,6 +72,7 @@ const MusicControl = () => {
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
+      sessionStorage.setItem('musicPlaying', 'false');
     } else {
       // Ensure we start from 20 seconds when playing
       if (audioRef.current.currentTime < 20) {
@@ -59,8 +83,23 @@ const MusicControl = () => {
         alert('Click anywhere on the page first to enable audio!');
       });
       setIsPlaying(true);
+      sessionStorage.setItem('musicPlaying', 'true');
     }
   };
+
+  // Save music time periodically
+  useEffect(() => {
+    if (!audioRef.current) return;
+
+    const updateMusicTime = () => {
+      if (audioRef.current && isPlaying) {
+        sessionStorage.setItem('musicTime', audioRef.current.currentTime.toString());
+      }
+    };
+
+    const interval = setInterval(updateMusicTime, 1000);
+    return () => clearInterval(interval);
+  }, [isPlaying]);
 
   return (
     <>
